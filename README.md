@@ -47,7 +47,7 @@ proxy | Nginx
 
 2.  ### Flow
     ```bash
-     User     Client    Nginx      Node      Alpha
+     User     Client    Nginx     *Node      Alpha
     -----------------------------------------------
       | connect |         |         |          |
       + ------> +   req   |         |          |
@@ -62,6 +62,7 @@ proxy | Nginx
       | <------ +  a.html |         |          |
       |  a.html |         |         |          |
     ```
+    >   현 구조 상 Node가 필요하지만, 수정 후 없애도 될 것으로 보인다.
 
 3.  ### Issue
     -   #### routing 역할만 수행하는 `Node`를 쓴다는 한계
@@ -89,5 +90,49 @@ proxy | Nginx
 - [ ] Backend Server의 단순화
 - [ ] Docker Compose를 통한 웹 서비스 통합 빌드
 - [ ] Root FE(경로가 "/"인 메인 홈페이지), Domain FE 구분
-- [ ] Nuxt.js를 통한 정적 페이지 Vue Client 구축(for Wiki, Docs)
+- [ ] Nuxt.js를 통한 정적 페이지 Vue Client 구축(for Wiki, Docs, etc.)
 - [ ] TDD 기반의 FE 구현
+- [ ] `vue.config.js`에서 `publicPath` 설정 가능한지 확인
+    -   artifacts 디렉토리 구분하는 부분과 병행해서 처리해야 할 듯
+
+---
+
+## Appendix
+
+-   Directory of node docker image from **First Project**
+    ```bash
+    /app ---+--- /dist
+            |      |
+            |      +--- alpha.html
+            |      |
+            |      +--- beta.html
+            |      |                # xxx: hash value maybe
+            |      +--- js  --- alpha.xxx.js, beta.yyy.js, ...
+            |      |
+            |      +--- css --- alpha.xxx.css, ...
+            |      |
+            |      +--- img --- alpha.xxx.jpg, ...
+            |
+            +--- /node_modules
+            |
+            +--- package.json, package-lock.json
+            |
+            +--- router.js  # based node express 5000 port
+    ```
+
+-   Location config of Nginx from **First Project**
+    ```nginx
+    upstream frontend {
+        server frontend:5000; # watch node.js
+    }
+
+    server {
+
+        listen 80;
+
+        location / {
+            proxy_pass http://frontend;
+        }
+
+    }
+    ```
