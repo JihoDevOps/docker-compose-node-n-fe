@@ -1,11 +1,22 @@
 # Partitioning Front-End
 
-### Goal
+## 실행 방법
+
+-   [Docker 설치](https://www.docker.com/get-started)
+-   Terminal에서 명령어 수행
+    ```bash
+    $ docker-compose up --build
+    ```
+-   브라우저에서 `localhost:8080/alpha`로 접속
+
+---
+
+## Goal
 
 >   - [X] Front-End의 덩치가 커져 감당 못하기 전에 분리한다.
 >   - [ ] 개발 환경을 구축하고 테스트한다.
 
-### Needs
+## Needs
 
 >   -   Docker
 >   -   Node
