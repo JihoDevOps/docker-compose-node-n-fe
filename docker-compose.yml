@@ -7,7 +7,7 @@ services:
     stdin_open: true
     build:
       dockerfile: Dockerfile
-      context: ./fe
+      context: ./frontend
 
   proxy:
     container_name: proxy
